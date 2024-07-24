@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Select Area</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
+  </head>
+  <body>
+    <h1>Select the area to keep</h1>
+    <img id="image" src="data:image/jpeg;base64,{{ image }}" />
+    <form
+      id="cropForm"
+      action="{% url 'process_image' product_id %}"
+      method="post"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="x" id="x" />
+      <input type="hidden" name="y" id="y" />
+      <input type="hidden" name="width" id="width" />
+      <input type="hidden" name="height" id="height" />
+      <button type="submit">Process Image</button>
+    </form>
+
+    <script>
+      $(function () {
+        var image = document.getElementById("image");
+        var cropper = new Cropper(image, {
+          aspectRatio: NaN,
+          viewMode: 1,
+          crop: function (event) {
+            $("#x").val(Math.round(event.detail.x));
+            $("#y").val(Math.round(event.detail.y));
+            $("#width").val(Math.round(event.detail.width));
+            $("#height").val(Math.round(event.detail.height));
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

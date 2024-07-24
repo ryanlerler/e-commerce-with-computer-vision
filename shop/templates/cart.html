@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% load custom_filters %} {% block content %}
+<h1>Shopping Cart</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.product.name }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>${{ order.product.price }}</td>
+      <td>${{ order.product.price|multiply:order.quantity }}</td>
+    </tr>
+    {% endfor %}
+    <p>Total: ${{ total }}</p>
+  </tbody>
+</table>
+{% endblock %}
